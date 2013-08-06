@@ -21,7 +21,7 @@ def send_alerts():
     products = Product.objects.filter(
         productalert__status=ProductAlert.ACTIVE
     ).distinct()
-    logger.info("Found %d products with active alerts", products.count())
+    logger.info(u"Found %d products with active alerts", products.count())
     for product in products:
         if product.is_available_to_buy:
             send_product_alerts(product)
@@ -57,7 +57,7 @@ def send_product_alerts(product):
     if num_in_stock == 0:
         return
 
-    logger.info("Sending alerts for '%s'", product)
+    logger.info(u"Sending alerts for '%s'", product)
     alerts = ProductAlert.objects.filter(
         product=product,
         status=ProductAlert.ACTIVE,
@@ -101,4 +101,4 @@ def send_product_alerts(product):
         connection.send_messages(emails)
         connection.close()
 
-    logger.info("Sent %d notifications and %d emails", num_notifications, len(emails))
+    logger.info(u"Sent %d notifications and %d emails", num_notifications, len(emails))
